@@ -1,0 +1,17 @@
+# requirements.txt - save this in your project's root folder
+
+Django
+gunicorn
+psycopg2
+whitenoise
+freezegun
+model_bakery
+pytest
+pytest-django
+pylint
+pylint-django
+Pillow
+boto3
+django-ckeditor
+django-storages
+djangorestframework
