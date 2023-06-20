@@ -28,4 +28,4 @@ class TopicAdmin(admin.ModelAdmin):
         'name',
         'slug',
     )
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)} #prepopulate with value in name

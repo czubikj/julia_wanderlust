@@ -5,9 +5,13 @@ from django.db import models
 class Topic(models.Model):
     name = models.CharField(
         max_length=50,
+        null= False, #default, but name is required!
         unique=True  # No duplicates!
     )
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(
+        unique=True,
+        null=False #default, but slug is required!
+    )
 
     def __str__(self):
         return self.name
