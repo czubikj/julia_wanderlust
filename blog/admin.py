@@ -19,13 +19,14 @@ class PostAdmin(admin.ModelAdmin):
     )
     prepopulated_fields = {'slug': ('title',)}
 
-# Register the `Post` model
-admin.site.register(models.Post)
-
-@admin.register(models.Topic) #convenient decorator used instead of admin.site.register`
 class TopicAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'slug',
     )
     prepopulated_fields = {'slug': ('name',)} #prepopulate with value in name
+
+# Register all` models
+admin.site.register(models.Post)
+admin.site.register(models.Topic)
+
