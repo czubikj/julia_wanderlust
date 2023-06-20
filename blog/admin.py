@@ -21,3 +21,11 @@ class PostAdmin(admin.ModelAdmin):
 
 # Register the `Post` model
 admin.site.register(models.Post)
+
+@admin.register(models.Topic) #convenient decorator used instead of admin.site.register`
+class TopicAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'slug',
+    )
+    prepopulated_fields = {'slug': ('name',)}
