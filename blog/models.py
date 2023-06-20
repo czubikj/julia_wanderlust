@@ -63,5 +63,9 @@ class Post(models.Model):
         blank=True,
         help_text='The date & time this article was published',
     )
+
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return self.title
