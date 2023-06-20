@@ -8,6 +8,9 @@ class PostAdmin(admin.ModelAdmin):
         'updated',
         'author'
     )
+    list_filter = (
+        'status',
+    )
     search_fields = (
         'title',
         'author__username',
