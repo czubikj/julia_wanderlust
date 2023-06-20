@@ -29,5 +29,10 @@ class Post(models.Model):
         default=DRAFT,
         help_text='Set to "published" to make this post publicly visible',
     )
+    published = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='The date & time this article was published',
+    )
     def __str__(self):
         return self.title
