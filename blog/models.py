@@ -15,7 +15,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(
-        null=True,
+        null=False,
         help_text='The date & time this article was published',
         unique_for_date='published',  # Slug is unique for publication date
     )
@@ -23,7 +23,7 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL,  # The Django auth user model
         on_delete=models.PROTECT,  # Prevent posts from being deleted
         related_name='blog_posts',  # "This" on the user model
-        null=True
+        null=False
     )
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)  # Sets on create
