@@ -6,6 +6,13 @@ class PostAdmin(admin.ModelAdmin):
         'title',
         'created',
         'updated',
+        'author'
+    )
+    search_fields = (
+        'title',
+        'author__username',
+        'author__first_name',
+        'author__last_name',
     )
 
 # Register the `Post` model
