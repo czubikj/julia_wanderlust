@@ -7,11 +7,11 @@ class PostAdmin(admin.ModelAdmin):
         'title',
         'created',
         'updated',
-        'author',
+        'author'
     )
     list_filter = (
         'status',
-        'topic',
+        'topics',
     )
     search_fields = (
         'title',
@@ -19,15 +19,13 @@ class PostAdmin(admin.ModelAdmin):
         'author__first_name',
         'author__last_name',
     )
+# Register all` models
+admin.site.register(models.Post, PostAdmin)
 
+@admin.register(models.Topic)
 class TopicAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)} # prepopulate with value in name
     list_display = (
         'name',
         'slug',
     )
-
-# Register all` models
-admin.site.register(models.Post)
-admin.site.register(models.Topic)
-
+    prepopulated_fields = {'slug': ('name',)} # prepopulate with value in name
