@@ -69,3 +69,32 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model): #Comment model where visitors can write comments on your posts
+    post = models.ForeignKey( #	A relationship to the Post model
+        Post,
+        on_delete=models.CASCADE, #if post is deleted, so will the comment
+        related_name='comments',
+        null=False
+    )
+    name = models.CharField( #The name of the person making the comment
+        max_length=50, #limited number of characters
+        null=False #this a required field!
+    )
+    email = models.EmailField( #The email address for the commenter, emailfield validates the email!
+        max_length=100, #max length for email
+        null=False #this is a required field!
+    )
+    text = models.TextField( #field containing the actual comment
+        null=False,
+        max_length = 1000#limit the number of characters so users don't get carried away (optional)
+    )
+    #approved = models. () #boolean field which is intended for comment moderation; if true=comment appears
+    created = models.DateTimeField(auto_now_add=True)  # Sets on create
+    updated = models.DateTimeField(auto_now=True)  # Updates on each save
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return 'Comment by'+ str(self.name)
