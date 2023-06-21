@@ -87,9 +87,11 @@ class Comment(models.Model): #Comment model where visitors can write comments on
     )
     text = models.TextField( #field containing the actual comment
         null=False,
-        max_length = 1000#limit the number of characters so users don't get carried away (optional)
+        max_length = 1000 #limit the number of characters so users don't get carried away (optional)
     )
-    #approved = models. () #boolean field which is intended for comment moderation; if true=comment appears
+    approved = models.BooleanField( #boolean field intended for comment moderation
+        default=False
+    )
     created = models.DateTimeField(auto_now_add=True)  # Sets on create
     updated = models.DateTimeField(auto_now=True)  # Updates on each save
 
