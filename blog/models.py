@@ -99,4 +99,4 @@ class Comment(models.Model): #Comment model where visitors can write comments on
         ordering = ['-created']
 
     def __str__(self):
-        return 'Comment by'+ str(self.name)
+        return 'Comment by '+ str(self.name)

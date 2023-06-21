@@ -5,6 +5,11 @@ from .models import Comment
 class CommentInline(admin.StackedInline):
     model = Comment
     extra = 0
+    readonly_fields = (
+        'name',
+        'text',
+        'email',
+    )
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_display = (
