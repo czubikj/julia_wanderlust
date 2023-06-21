@@ -58,7 +58,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+#db.sqlite3 #please remove "db.sqlite3" from your .gitignore file and commit the change and push the changes.
 db.sqlite3-journal
 
 # Flask stuff:
