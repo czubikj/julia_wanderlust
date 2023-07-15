@@ -8,8 +8,10 @@ def home(request):
     """
     # Get last 3 posts
     latest_posts = models.Post.objects.published().order_by('-published')[:3]
+    authors = models.Post.objects.get_authors()
 
     context = {
+        'authors': authors,
         'latest_posts': latest_posts,
     }
 

@@ -15,6 +15,9 @@
      <p>A blog about travel & good food!</p>
   </header>
 
+<!--img src="{% static "blog/blog_img.jpeg" %}" alt="Logo" width="1000" height="500"-->
+  <!-- image is too large, tag start is not closed!-->
+
   <!-- Top navigation -->
   <nav id="top-nav">
     <ul>
@@ -25,12 +28,29 @@
     </ul>
   </nav>
 
+  <!-- The main content -->
   <main id="main-content">
-    {% block main %}
-    <!-- Content for the main block will be rendered here -->
-    {% endblock %}
-  </main>
+    <div>
+      {% block main %}
+      <!-- Content for the main block will be rendered here -->
+      {% endblock %}
+    </div>
 
+    <aside id="sidebar">
+      <section id="author-list">
+        <h3>Authors</h3>
+        <ul>
+          {% for author in authors %}
+            <li>{{ author.get_username }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section id="topics-list">
+        <h3>Popular Topics</h3>
+      </section>
+    </aside>
+  </main>
 
   <!-- The footer -->
   <footer id="site-footer">
