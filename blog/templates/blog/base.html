@@ -16,7 +16,7 @@
   </header>
 
 <!--img src="{% static "blog/blog_img.jpeg" %}" alt="Logo" width="1000" height="500"-->
-  <!-- image is too large, tag start is not closed!-->
+  <!-- image is too large, tag start is not closed! Will update this later-->
 
   <!-- Top navigation -->
   <nav id="top-nav">
@@ -48,6 +48,11 @@
 
       <section id="topics-list">
         <h3>Popular Topics</h3>
+          <ul>
+          {% for topic in pop_topics %}
+            <li>{{ topic.name }} ({{ topic.num_posts }})</li>
+          {% endfor %}
+          </ul>
       </section>
     </aside>
   </main>

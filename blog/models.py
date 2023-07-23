@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from django.contrib.auth import get_user_model
+from django.db.models import Count
 
 # Create your models here.
 class Topic(models.Model):
@@ -31,6 +32,24 @@ class PostQuerySet(models.QuerySet):
         User = get_user_model()
         # Get the users who are authors of this queryset
         return User.objects.filter(blog_posts__in=self).distinct()
+    def get_topics(self):
+        #retrieve all topics with an annotated number of posts
+        return Topic.objects.annotate(num_posts=Count('blog_posts')).order_by('-num_posts')
+    def post_popularity(self):
+        #determine the popularity of the post by counting comments
+        return self.annotate(popularity=Count('comments'))
+    def get_related_topics(self):
+        #retrieve the topics related to a given post
+        return Topic.objects.filter(blog_posts__in=self)
+    def get_popular_topics(self):
+        #retrieve the top 10 posts by popularity
+        top_10_posts = self.post_popularity().order_by('-popularity')[:10]
+        #get the id's of the top 10 posts
+        top_10_post_ids = top_10_posts.values_list('id')
+        #annotate all topics with the number of posts, limited to the top 10 posts
+        annotated_topics = Topic.objects.annotate(num_posts=Count('blog_posts', filter=models.Q(blog_posts__in=top_10_post_ids))).order_by('-num_posts')
+        return annotated_topics
+
 class Post(models.Model):
     """
     Represents a blog post
