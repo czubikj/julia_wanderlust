@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+
+{% block page_title %}{{ post.title }}{% endblock %}
+
+{% block main %}
+<article id="post-detail-article">
+  <h1>{{ post.title }}</h1>
+  <span class="published">Published <time>{{ post.published }}</time></span><br>
+  <span class="author">{{ post.author.get_full_name }}</span><br>
+
+  {% for topic in related_topics %}
+    <a href="{{ topic.get_absolute_url }}">{{ topic.name }}{% if not forloop.last %}, {% endif %}</a>
+  {% endfor %}
+
+  <section class="content">{{ post.content|linebreaks }}</section>
+</article>
+{% endblock %}

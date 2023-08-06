@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+
+{% block page_title %}{{ topic.name }}{% endblock %}
+
+{% block main %}
+<h1>{{ topic.name}}</h1>
+
+{% for post in related_posts %}
+  {% include "blog/post_preview.html" %}
+{% endfor %}
+
+{% endblock %}

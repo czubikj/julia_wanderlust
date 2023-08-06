@@ -21,9 +21,10 @@
   <!-- Top navigation -->
   <nav id="top-nav">
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Posts</a></li>
+      <li><a href="{% url "home" %}">Home</a></li>
+      <li><a href="{% url "about" %}">About</a></li>
+      <li><a href="{% url "post-list" %}">Posts</a></li>
+      <li><a href="{% url "topic-list" %}">Topics</a></li>
       <li><a href="#">Contact</a></li>
     </ul>
   </nav>
@@ -37,6 +38,16 @@
     </div>
 
     <aside id="sidebar">
+      <section id="topics-list">
+        <h3>Popular Topics</h3>
+          <ul>
+          {% for topic in pop_topics %}
+            <li><a href="{{ topic.get_absolute_url }}">{{ topic.name }} ({{ topic.num_posts }})</a></li>
+          {% endfor %}
+          <h4><a href="{% url "topic-list" %}">View All</a></h4>
+          </ul>
+      </section>
+
       <section id="author-list">
         <h3>Authors</h3>
         <ul>
@@ -46,21 +57,14 @@
         </ul>
       </section>
 
-      <section id="topics-list">
-        <h3>Popular Topics</h3>
-          <ul>
-          {% for topic in pop_topics %}
-            <li>{{ topic.name }} ({{ topic.num_posts }})</li>
-          {% endfor %}
-          </ul>
-      </section>
     </aside>
   </main>
 
   <!-- The footer -->
   <footer id="site-footer">
     <!-- Print copyright with the current year -->
-    Copyright &copy;{% now 'Y' %}
+    Copyright &copy; {% now 'Y' %} –
+    <a href="{% url "terms-and-conditions" %}">Terms & conditions </a>
   </footer>
 </body>
 </html>
