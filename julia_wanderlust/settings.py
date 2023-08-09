@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-r0&f#5jkm_%d4yhq!i%)r+=rsb*%y8*p@1tyf@3$u(-n=k06&!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+# Read the DEBUG environment variable. Default to "1" for True.
+DEBUG = int(os.environ.get('DEBUG', '1'))
 ALLOWED_HOSTS = []
 
 
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
 
     #apps
     'blog',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +128,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+

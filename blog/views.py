@@ -5,6 +5,11 @@ from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from . import forms, models
+from django.views.generic import DetailView, FormView, ListView
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -128,6 +133,82 @@ class TopicDetailView(DetailView):
                 'slug': self.slug
             }
         )
+
+def form_example(request):
+    # Handle the POST
+    if request.method == 'POST':
+        # Pass the POST data into a new form instance for validation
+        form = forms.ExampleSignupForm(request.POST)
+
+        # If the form is valid, return a different template.
+        if form.is_valid():
+            # form.cleaned_data is a dict with valid form data
+            cleaned_data = form.cleaned_data
+
+            return render(
+                request,
+                'blog/form_example_success.html',
+                context={'data': cleaned_data}
+            )
+    # If not a POST, return a blank form
+    else:
+        form = forms.ExampleSignupForm()
+
+    # Return if either an invalid POST or a GET
+    return render(request, 'blog/form_example.html', context={'form': form})
+
+class FormViewExample(FormView):
+    template_name = 'blog/form_example.html'
+    form_class = forms.ExampleSignupForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        # Create a "success" message
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Thank you for signing up!'
+        )
+        # Continue with default behaviour
+        return super().form_valid(form)
+def contest_form(request):
+    if request.method == 'POST':
+        contest_form = forms.PhotoForm(request.POST, request.FILES)
+        if contest_form.is_valid():
+            cleaned_data = contest_form.cleaned_data
+            return render(
+                request,
+                'blog/photo_contest_success.html',
+                context={'data': cleaned_data}
+            )
+    else:
+        contest_form = forms.PhotoForm()
+    return render(request, 'blog/photo_contest.html', context={'contest_form': contest_form})
+
+class ContestFormView(FormView):
+    template_name = 'blog/photo_contest.html'
+    model = models.PhotoContestSubmission
+    form_class = forms.PhotoForm
+    success_url = reverse_lazy('home')
+    fields = [
+        'first_name',
+        'last_name',
+        'email',
+        'photo',
+    ]
+    def form_valid(self, form):
+        cleaned_data = form.cleaned_data
+        submission = models.PhotoContestSubmission.objects.create(
+            first_name=cleaned_data['first_name'],
+            last_name=cleaned_data['last_name'],
+            email=cleaned_data['email'],
+            photo=cleaned_data['photo'],)
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Thank you! Your photo submission has been received!'
+        )
+        return super().form_valid(form)
 
 
 def terms_and_conditions(request):

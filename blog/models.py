@@ -6,6 +6,9 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.urls import reverse
 
+from ckeditor_uploader.fields import RichTextUploadingField
+
+
 # Create your models here.
 class Topic(models.Model):
     name = models.CharField(
@@ -89,7 +92,7 @@ class Post(models.Model):
         related_name='blog_posts',  # "This" on the user model
         null=False
     )
-    content = models.TextField()
+    content = RichTextUploadingField()
     created = models.DateTimeField(auto_now_add=True)  # Sets on create
     updated = models.DateTimeField(auto_now=True)  # Updates on each save
     status = models.CharField(
@@ -102,6 +105,12 @@ class Post(models.Model):
         null=True,
         blank=True,
         help_text='The date & time this article was published',
+    )
+
+    banner = models.ImageField(
+        blank=True,
+        null=True,
+        help_text='A banner image for the post'
     )
 
     objects = PostQuerySet.as_manager()
@@ -159,3 +168,13 @@ class Comment(models.Model): #Comment model where visitors can write comments on
 
     def __str__(self):
         return 'Comment by '+ str(self.name)
+
+class PhotoContestSubmission(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    photo = models.ImageField(upload_to='contest_photos/')
+    submission_datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.submission_datetime}"

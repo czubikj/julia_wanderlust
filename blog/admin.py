@@ -1,6 +1,7 @@
 from django.contrib import admin
 from . import models
 from .models import Comment
+from .models import PhotoContestSubmission
 
 class CommentInline(admin.StackedInline):
     model = Comment
@@ -64,4 +65,28 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, queryset):
         queryset.update(approved=True)
+
+class PhotoContestSubmissionAdmin(admin.ModelAdmin):
+    list_display = (
+        'email',
+        'last_name',
+        'first_name',
+        'photo',
+        'submission_datetime',
+    )
+    list_filter = (
+        'email',
+        'last_name',
+        'first_name',
+        'photo',
+        'submission_datetime',
+    )
+    search_fields = (
+        'email',
+        'last_name',
+        'first_name',
+        'photo'
+        'submission_datetime',
+    )
+admin.site.register(PhotoContestSubmission, PhotoContestSubmissionAdmin)
 

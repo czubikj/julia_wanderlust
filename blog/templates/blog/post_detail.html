@@ -12,6 +12,6 @@
     <a href="{{ topic.get_absolute_url }}">{{ topic.name }}{% if not forloop.last %}, {% endif %}</a>
   {% endfor %}
 
-  <section class="content">{{ post.content|linebreaks }}</section>
+  <section class="content">{{ post.content|safe|linebreaks }}</section>
 </article>
 {% endblock %}
