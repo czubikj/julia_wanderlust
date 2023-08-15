@@ -26,10 +26,9 @@ SECRET_KEY = 'django-insecure-r0&f#5jkm_%d4yhq!i%)r+=rsb*%y8*p@1tyf@3$u(-n=k06&!
 # SECURITY WARNING: don't run with debug turned on in production!
 # Read the DEBUG environment variable. Default to "1" for True.
 DEBUG = int(os.environ.get('DEBUG', '1'))
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".azurewebsites.net", "127.0.0.1"]
 
 CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net"]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,6 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
