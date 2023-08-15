@@ -10,6 +10,9 @@ from django.views.generic import DetailView, FormView, ListView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
+from django.http import HttpResponse, JsonResponse
+from django.db.models import F, Value
+import json
 
 # Create your views here.
 
@@ -28,6 +31,7 @@ def home(request):
     related_topics = top_posts.get_related_topics()
     # retrieve the topics for all the posts, annotated with number of posts, with annotations limited to top 10 posts
     pop_topics = models.Post.objects.get_popular_topics().distinct().order_by('-num_posts')
+    comments = models.Post.objects.get_comments()
 
 
     context = {
@@ -37,6 +41,7 @@ def home(request):
         'top_posts': top_posts,
         'related_topics': related_topics,
         'pop_topics': pop_topics,
+        'comments': comments,
     }
 
     return render(request, 'blog/home.html', context)
@@ -106,7 +111,10 @@ class PostDetailView(DetailView):
 
         related_topics = post.topics.all()
 
+        comments = post.comments.all()
+
         context['related_topics'] = related_topics
+        context['comments'] = comments
         return context
 
 class TopicListView(ListView):
@@ -210,6 +218,17 @@ class ContestFormView(FormView):
         )
         return super().form_valid(form)
 
+def like_comment(request, pk):
+    if request.method == 'POST':
+        comment = models.Comment.objects.get(pk=pk)
+        models.Comment.objects.filter(pk=pk).update(likes=F('likes') + 1)
+        return HttpResponse(status=204)
+
+def dislike_comment(request, pk):
+    if request.method == 'POST':
+        comment = models.Comment.objects.get(pk=pk)
+        models.Comment.objects.filter(pk=pk).update(dislikes=F('dislikes') + 1)
+        return HttpResponse(status=204)
 
 def terms_and_conditions(request):
    return render(request, 'blog/terms_and_conditions.html')

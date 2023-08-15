@@ -28,6 +28,7 @@ SECRET_KEY = 'django-insecure-r0&f#5jkm_%d4yhq!i%)r+=rsb*%y8*p@1tyf@3$u(-n=k06&!
 DEBUG = int(os.environ.get('DEBUG', '1'))
 ALLOWED_HOSTS = []
 
+CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net"]
 
 # Application definition
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,4 +135,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
 

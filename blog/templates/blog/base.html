@@ -9,6 +9,11 @@
 </head>
 
 <body>
+  {% block js %}
+    <script src="{% static "blog/csrf.js" %}"></script>
+    <script src="{% static "blog/comments.js" %}"></script>
+  {% endblock %}
+
   {% if messages %}
   <div class="django-messages">
     {% for message in messages %}

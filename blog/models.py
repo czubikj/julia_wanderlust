@@ -61,6 +61,10 @@ class PostQuerySet(models.QuerySet):
         #annotate all topics with the number of posts, limited to the top 10 posts
         annotated_topics = Topic.objects.annotate(num_posts=Count('blog_posts', filter=models.Q(blog_posts__in=top_10_post_ids))).order_by('-num_posts')
         return annotated_topics
+    def get_comments(self):
+        rel_comments = Comment.objects.filter(blog_posts__in=selft)
+        return rel_comments
+
 
 class Post(models.Model):
     """
@@ -162,6 +166,9 @@ class Comment(models.Model): #Comment model where visitors can write comments on
     )
     created = models.DateTimeField(auto_now_add=True)  # Sets on create
     updated = models.DateTimeField(auto_now=True)  # Updates on each save
+
+    likes = models.PositiveIntegerField(default=0) #likes for comments
+    dislikes = models.PositiveIntegerField(default=0) #dislikes for comments
 
     class Meta:
         ordering = ['-created']

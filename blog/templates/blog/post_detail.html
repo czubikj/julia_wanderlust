@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load static %}
 
 {% block page_title %}{{ post.title }}{% endblock %}
 
@@ -14,4 +15,29 @@
 
   <section class="content">{{ post.content|safe|linebreaks }}</section>
 </article>
+
+<h2>Comments</h2>
+{% for comment in comments %}
+<div class="comment">
+    <p>{{ comment.text }}</p>
+    <div class="likes">
+        <form method="post" action="{% url 'like_comment' comment.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="like-comment">
+                <img src="{% static 'thumbsup.png' %}" alt="Like" width="20" height="20">
+            </button>
+        </form>
+        <span class="comment-likes" data-comment-id="{{ comment.pk }}">{{ comment.likes }}</span>
+    </div>
+    <div class="dislikes">
+        <form method="post" action="{% url 'dislike_comment' comment.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="dislike-comment">
+                <img src="{% static 'thumbsdown.png' %}" alt="Dislike" width="20" height="20">
+            </button>
+        </form>
+        <span class="comment-dislikes" data-comment-id="{{ comment.pk }}">{{ comment.dislikes }}</span>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
